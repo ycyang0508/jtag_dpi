@@ -1,4 +1,4 @@
-jtag_vpi
+jtag_dpi
 ========
 
 TCP/IP controlled DPI JTAG Interface.
