@@ -3,8 +3,7 @@
 -I./
 -ccargs -std=c++11
 -cpost
-/home/ycyang/Downloads/jtag_dpi-master/jtag_common.c
-///home/ycyang/Downloads/jtag_dpi-master/jtagServer.cpp
-/home/ycyang/Downloads/jtag_dpi-master/jtag_dpi.c
+$TOPDIR/rtl/jtag_dpi/jtag_common.c
+$TOPDIR/rtl/jtag_dpi/jtag_dpi.c
 -end
-/home/ycyang/Downloads/jtag_dpi-master/jtag_dpi.sv
+$TOPDIR/rtl/jtag_dpi/jtag_dpi.sv

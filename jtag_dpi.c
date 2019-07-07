@@ -61,7 +61,15 @@ void dpi_check_for_command(int *cmd,int *length,int *nb_bits,const svOpenArrayHa
     
 
     if (check_for_command(&vpi))
+    {
+      vpi.cmd = -1;
+      vpi.length = 0;
+      vpi.nb_bits = 0;
+      *cmd = vpi.cmd;
+      *length = vpi.length;
+      *nb_bits = vpi.nb_bits;      
 	  return;
+    }
 
     //printf("Array Left %d, Array Right %d \n\n", svLeft(buffer_out,1), svRight(buffer_out, 1) );
 
