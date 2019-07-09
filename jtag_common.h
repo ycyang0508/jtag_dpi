@@ -4,11 +4,11 @@
 #define	XFERT_MAX_SIZE	512
 
 struct jtag_cmd {
-	uint32_t cmd;
+	int cmd;
 	unsigned char buffer_out[XFERT_MAX_SIZE];
 	unsigned char buffer_in[XFERT_MAX_SIZE];
-	uint32_t length;
-	uint32_t nb_bits;
+	int length;
+	int nb_bits;
 };
 
 int init_jtag_server(int port);

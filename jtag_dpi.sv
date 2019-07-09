@@ -52,8 +52,8 @@ module jtag_dpi
 
 
 
-    import "DPI-C" context function void dpi_check_for_command(output int cmd, output int length, output int nb_bits, output int unsigned bufferOut[]);
-    import "DPI-C" context function void dpi_send_result_to_server(input int length, input int nb_bits, input int unsigned bufferIn[]);
+    import "DPI-C" context function void dpi_check_for_command(output int cmd, output int length, output int nb_bits, output byte unsigned bufferOut[]);
+    import "DPI-C" context function void dpi_send_result_to_server(input int length, input int nb_bits, input byte unsigned bufferIn[]);
 
 
 
@@ -61,13 +61,13 @@ module jtag_dpi
   integer		length;
   integer		nb_bits;
 
-  int unsigned int_buffer_out[0:4095];   // Data storage from the jtag server
-  int unsigned int_buffer_in[0:4095];   // Data storage to the jtag server
+  byte unsigned int_buffer_out[0:4095];   // Data storage from the jtag server
+  byte unsigned int_buffer_in[0:4095];   // Data storage to the jtag server
 
   integer		flip_tms;
 
-  reg[31:0]	data_out;
-  reg[31:0]	data_in;
+  reg[7:0]	data_out;
+  reg[7:0]	data_in;
 
   integer		debug;
 
@@ -114,7 +114,7 @@ module jtag_dpi
                     begin                            
                         #TCK_HALF_PERIOD;
                         retry++;
-                        $display("RTL> dpi_check_for_command %d",retry); 
+                        //$display("RTL> dpi_check_for_command %d",retry); 
                     end
                 end
                 /*
@@ -155,7 +155,7 @@ module jtag_dpi
                     `CMD_SCAN_CHAIN_FLIP_TMS :
                         begin
                             if (DEBUG_INFO)
-                                $display("%t ----> CMD_SCAN_CHAIN\n", $time);
+                                $display("%t ----> CMD_SCAN_CHAIN_FLIP_TMS\n", $time);
                             flip_tms = 1;
                             do_scan_chain;
                             dpi_send_result_to_server(length, nb_bits, int_buffer_in);

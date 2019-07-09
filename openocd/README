@@ -1,0 +1,4 @@
+step1 : trace openocd-0.10.0/src/jtag/drivers/jtag_vpi.c
+step2 : ./configure --enable-jtag_vpi; make install
+step3 : openocd -f ./jtag_vpi.cfg
+

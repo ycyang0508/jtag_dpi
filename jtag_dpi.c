@@ -57,7 +57,7 @@ void dpi_check_for_command(int *cmd,int *length,int *nb_bits,const svOpenArrayHa
     struct jtag_cmd vpi;
 	unsigned loaded_words = 0;
 	//struct t_vpi_value argval;
-	int *pBuf;
+	unsigned char *pBuf;
     
 
     if (check_for_command(&vpi))
@@ -85,6 +85,7 @@ void dpi_check_for_command(int *cmd,int *length,int *nb_bits,const svOpenArrayHa
     *cmd = vpi.cmd;
     *length = vpi.length;
     *nb_bits = vpi.nb_bits;
+    
     /*
     printf("dpi_check_for_command info %d %d %d\n",*cmd,*length,*nb_bits);
     for(i = 0;i < vpi.length;i++)
@@ -92,13 +93,14 @@ void dpi_check_for_command(int *cmd,int *length,int *nb_bits,const svOpenArrayHa
         printf("bufOut[%d] = %d\n",i,vpi.buffer_out[i]);
     }
     */
+    
 }
 
 void dpi_send_result_to_server(int length,int nb_bits,const svOpenArrayHandle buffer_in)
 {
     int i;
 	struct jtag_cmd vpi;
-	int *pBuf;
+	unsigned char *pBuf;
  
     vpi.length = length;
     vpi.nb_bits = nb_bits;

@@ -35,7 +35,7 @@ int init_jtag_server(int port)
     
     if(setsockopt(listenfd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1) {
         fprintf(stderr, "Unable to setsockopt on the socket: %s\n", strerror(errno));
-        return;
+        return -1;
     }
 
 
@@ -62,49 +62,48 @@ int init_jtag_server(int port)
 int check_for_command(struct jtag_cmd *vpi) {
 	int nb;
     int flag;
+    int i;
 	// Get the command from TCP server
 	if(!connfd)
     {
 	  init_jtag_server(RSP_SERVER_PORT);
     }
-
-    printf("before recv %d\n",listenfd);
-    flag = 0;
-    //nb = read(connfd, vpi, sizeof(struct jtag_cmd));
+    
+    flag = 0;    
     nb = recv(connfd,vpi,sizeof(struct jtag_cmd),flag);
-    printf("after recv %d legnth %d errorno %d\n",listenfd,nb,errno);
-
+    
 	if (((nb < 0) && (errno == EAGAIN)) || (nb == 0)) {
 		// Nothing in the fifo this time, let's return        
-        perror("check_for_command_0 err\n");
+        //perror("check_for_command_0 err\n");
         return 1;
 	} else {
 		if (nb < 0) {
 			// some sort of error
             printf("check_for_command_1 err\n");
-            return 1;
-			//exit(1);
+            //return 1;
+			exit(1);
 		}
 	}
-
-    //printf("after recv %d\n",listenfd);
+    /*
+    printf("after recv %d nb %d errorno %d %d %d %d\n", listenfd, nb, errno, vpi->cmd, vpi->length, vpi->nb_bits);
+    for(i = 0;i < vpi->length;i++)
+    {
+        printf("bufOut[%d] = %d\n",i,vpi->buffer_out[i]);
+    }
+    */    
 	return 0;
 }
 
 int send_result_to_server(struct jtag_cmd *vpi) {
 	ssize_t n;
     int flag;
-	
-
-    printf("before send %d %d\n",listenfd,vpi->length);
 
     flag = 0;
     n = send(connfd,vpi,sizeof(struct jtag_cmd),flag);
     //n = write(connfd, vpi, sizeof(struct jtag_cmd));
 	if (n < (ssize_t)sizeof(struct jtag_cmd))
 	  return -1;
-
-    printf("after send %d %d\n",listenfd,n);
+    
 	return 0;
 }
 
